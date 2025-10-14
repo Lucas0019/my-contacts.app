@@ -1,34 +1,14 @@
-import { useState } from 'react';
+import { ThemeProvider } from 'styled-components';
 
-import './App.css';
-import reactLogo from './assets/react.svg';
+import GlobalStyles from './assets/styles/global';
+import defaultTheme from './assets/styles/theme/default';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((c) => c + 1)} type="button">
-          count is
-          {count}
-        </button>
-        <p>
-          Edit
-          <code>src/App.tsx</code>
-          and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyles />
+      <h1>MyContacts</h1>
+    </ThemeProvider>
   );
 }
 
