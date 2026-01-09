@@ -1,0 +1,22 @@
+import { ThemeProvider } from 'styled-components';
+
+import GlobalStyles from '../../assets/styles/global';
+import defaultTheme from '../../assets/styles/theme/default';
+import { ContactsList } from '../ContactsList';
+import { Header } from '../Header';
+
+import * as S from './styles';
+
+function App() {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <GlobalStyles />
+      <S.AppContainer>
+        <Header />
+        <ContactsList />
+      </S.AppContainer>
+    </ThemeProvider>
+  );
+}
+
+export default App;

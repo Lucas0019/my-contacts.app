@@ -3,7 +3,7 @@ import { createGlobalStyle } from 'styled-components';
 export default createGlobalStyle`
 
   :root {
-    --backgroundColor: ${({ theme }) => theme.backgroundColor};
+    --backgroundColor: ${({ theme }) => theme.colors.background};
   }
 
   * {
