@@ -91,8 +91,8 @@ export const ContactsCard = styled.div`
 
     span {
       display: block;
-      color: #666;
       font-size: 14px;
+      color: var(--secondaryColor);
     }
   }
 
