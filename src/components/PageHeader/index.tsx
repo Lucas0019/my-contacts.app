@@ -10,7 +10,7 @@ type Props = {
 
 export const PageHeader = ({ title }: Props) => {
   return (
-    <S.PageHeaderContainer>
+    <S.PageHeaderContainer data-component="PageHeader">
       <Link to="/">
         <img src={arrow} alt="Back" />
         <span>Voltar</span>

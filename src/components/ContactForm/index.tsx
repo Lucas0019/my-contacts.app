@@ -11,7 +11,7 @@ type Props = {
 
 export const ContactForm = ({ buttonLabel }: Props) => {
   return (
-    <S.ContactFormContainer>
+    <S.ContactFormContainer data-component="ContactForm">
       <form>
         <FormGroup>
           <UIInput placeholder="Nome" />

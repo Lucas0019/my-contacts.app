@@ -8,7 +8,7 @@ import * as S from './styles';
 
 export const ContactsList = () => {
   return (
-    <S.ContactsListContainer>
+    <S.ContactsListContainer data-component="ContactsList">
       <S.InputSearchContainer>
         <input type="text" placeholder="Pesquisar contato..." />
       </S.InputSearchContainer>

@@ -7,5 +7,9 @@ type Props = {
 };
 
 export const FormGroup = ({ children }: Props) => {
-  return <S.FormGroupContainer>{children}</S.FormGroupContainer>;
+  return (
+    <S.FormGroupContainer data-component="FormGroup">
+      {children}
+    </S.FormGroupContainer>
+  );
 };
