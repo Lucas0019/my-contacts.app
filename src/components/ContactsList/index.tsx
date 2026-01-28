@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+// import { Modal } from '../Modal';
 
 import * as S from './styles';
 
 export const ContactsList = () => {
+  // const modalType = 'default';
+
   return (
     <S.ContactsListContainer data-component="ContactsList">
+      {/* <Modal modalType={modalType} /> */}
+
       <S.InputSearchContainer>
         <input type="text" placeholder="Pesquisar contato..." />
       </S.InputSearchContainer>

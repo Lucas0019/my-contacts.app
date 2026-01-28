@@ -8,6 +8,7 @@ export const ContactFormContainer = styled.div`
 
     button[data-action] {
       margin-top: 8px;
+      width: 100%;
     }
   }
 `;

@@ -16,6 +16,7 @@
     }
   },
   "rules": {
+    "react/require-default-props": "off",
     "arrow-body-style": "off",
     "prettier/prettier": "error",
     "react/jsx-props-no-spreading": "off",
