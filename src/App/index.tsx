@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyles from '../assets/styles/global';
 import defaultTheme from '../assets/styles/theme/default';
 import { Header } from '../components/Header';
-import Routes from '../Routes';
+import { AppRoutes } from '../AppRoutes';
 
 import * as S from './styles';
 
@@ -16,7 +16,7 @@ function App() {
         <GlobalStyles />
         <S.AppContainer>
           <Header />
-          <Routes />
+          <AppRoutes />
         </S.AppContainer>
       </ThemeProvider>
     </BrowserRouter>
