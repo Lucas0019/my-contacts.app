@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
@@ -7,10 +9,13 @@ import * as S from './styles';
 export const ContactsList = () => {
   return (
     <S.ContactsListContainer>
+      <S.InputSearchContainer>
+        <input type="text" placeholder="Pesquisar contato..." />
+      </S.InputSearchContainer>
       <S.ContactsListHeader>
         <strong>3 contatos</strong>
 
-        <a href="/">Novo Contato</a>
+        <Link to="/new">Novo Contato</Link>
       </S.ContactsListHeader>
 
       <S.ListContainer>
@@ -32,9 +37,9 @@ export const ContactsList = () => {
           </div>
 
           <div className="actions">
-            <a href="/">
+            <Link to="/edit/1">
               <img src={edit} alt="Ícone de editar" />
-            </a>
+            </Link>
             <button type="button">
               <img src={trash} alt="Ícone de lixeira" />
             </button>

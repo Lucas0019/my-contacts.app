@@ -1,3 +1,5 @@
+import { ContactsList } from '../../components/ContactsList';
+
 export const Home = () => {
-  return <div>Home</div>;
+  return <ContactsList />;
 };
