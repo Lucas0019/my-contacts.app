@@ -10,6 +10,8 @@ type Props = {
 };
 
 export const ContactForm = ({ buttonLabel }: Props) => {
+  const hasError = true;
+
   return (
     <S.ContactFormContainer data-component="ContactForm">
       <form>
@@ -17,8 +19,8 @@ export const ContactForm = ({ buttonLabel }: Props) => {
           <UIInput placeholder="Nome" />
         </FormGroup>
 
-        <FormGroup>
-          <UIInput placeholder="Email" />
+        <FormGroup error="O formato do email é inválido">
+          <UIInput placeholder="Email" data-error={hasError} />
         </FormGroup>
 
         <FormGroup>

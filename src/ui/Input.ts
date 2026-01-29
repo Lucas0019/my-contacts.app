@@ -16,4 +16,13 @@ export const UIInput = styled.input`
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary.main};
   }
+
+  &[data-error='true'] {
+    border-color: ${({ theme }) => theme.colors.danger.main};
+    color: ${({ theme }) => theme.colors.danger.main};
+
+    &::placeholder {
+      color: ${({ theme }) => theme.colors.danger.main};
+    }
+  }
 `;
