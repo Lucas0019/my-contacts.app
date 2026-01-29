@@ -4,14 +4,16 @@ import * as S from './styles';
 
 type Props = {
   error?: string | null;
-  children?: ReactNode;
+  children: ReactNode;
 };
 
 export const FormGroup = ({ error, children }: Props) => {
+  const hasError = Boolean(error);
+
   return (
-    <S.FormGroupContainer data-component="FormGroup">
+    <S.FormGroupContainer data-component="FormGroup" data-error={hasError}>
       {children}
-      {error && <small>{error}</small>}
+      {hasError && <small>{error}</small>}
     </S.FormGroupContainer>
   );
 };
