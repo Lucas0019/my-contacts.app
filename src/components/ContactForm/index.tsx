@@ -16,16 +16,26 @@ export const ContactForm = ({ buttonLabel }: Props) => {
   const nameError = getFieldError('name');
   const emailError = getFieldError('email');
 
+  const isFormValid =
+    fields.name.trim().length > 0 &&
+    fields.email.trim().length > 0 &&
+    fields.phone.trim().length > 0 &&
+    fields.category.trim().length > 0 &&
+    !getFieldError('name') &&
+    !getFieldError('email') &&
+    !getFieldError('phone');
+
   return (
     <S.ContactFormContainer data-component="ContactForm">
       <form
+        noValidate
         onSubmit={handleSubmit((data) => {
           console.log(data);
         })}
       >
         <FormGroup error={nameError?.message}>
           <UIInput
-            placeholder="Nome"
+            placeholder="Nome*"
             value={fields.name}
             onChange={handlers.handleNameChange}
             data-error={!!nameError}
@@ -34,7 +44,8 @@ export const ContactForm = ({ buttonLabel }: Props) => {
 
         <FormGroup error={emailError?.message}>
           <UIInput
-            placeholder="Email"
+            type="email"
+            placeholder="Email*"
             value={fields.email}
             onChange={handlers.handleEmailChange}
             onBlur={handlers.handleEmailBlur}
@@ -42,11 +53,13 @@ export const ContactForm = ({ buttonLabel }: Props) => {
           />
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup error={getFieldError('phone')?.message}>
           <UIInput
             placeholder="Telefone"
             value={fields.phone}
-            onChange={(e) => handlers.setPhone(e.target.value)}
+            onChange={handlers.handlePhoneChange}
+            onBlur={handlers.handlePhoneBlur}
+            data-error={!!getFieldError('phone')}
           />
         </FormGroup>
 
@@ -62,7 +75,11 @@ export const ContactForm = ({ buttonLabel }: Props) => {
           </UISelect>
         </FormGroup>
 
-        <UIButton type="submit" data-action="submit-contact-form">
+        <UIButton
+          type="submit"
+          data-action="submit-contact-form"
+          disabled={!isFormValid}
+        >
           {buttonLabel}
         </UIButton>
       </form>

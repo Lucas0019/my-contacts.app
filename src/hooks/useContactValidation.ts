@@ -1,8 +1,9 @@
 import { isEmailValid } from '../utils/isEmailValid';
+import { isPhoneValid } from '../utils/isPhoneValid';
 
 import { useError } from './useError';
 
-type Field = 'name' | 'email';
+type Field = 'name' | 'email' | 'phone';
 
 export function useContactValidation() {
   const { getFieldError, setFieldError, removeFieldError, resetErrors } =
@@ -25,7 +26,7 @@ export function useContactValidation() {
     if (!isEmailValid(value)) {
       setFieldError({
         field: 'email',
-        message: 'O formato do email é inválido, ex: lucas@gmail.com',
+        message: 'Formato de email inválido',
       });
       return false;
     }
@@ -33,19 +34,39 @@ export function useContactValidation() {
     return true;
   };
 
-  const validateForm = (values: { name: string; email: string }) => {
+  const validatePhone = (value: string) => {
+    if (!value) return true; // opcional
+
+    if (!isPhoneValid(value)) {
+      setFieldError({
+        field: 'phone',
+        message: 'Telefone inválido',
+      });
+      return false;
+    }
+
+    return true;
+  };
+
+  const validateForm = (values: {
+    name: string;
+    email: string;
+    phone: string;
+  }) => {
     resetErrors();
 
     const nameIsValid = validateName(values.name);
     const emailIsValid = validateEmail(values.email);
+    const phoneIsValid = validatePhone(values.phone);
 
-    return nameIsValid && emailIsValid;
+    return nameIsValid && emailIsValid && phoneIsValid;
   };
 
   return {
     getFieldError,
     removeFieldError,
     validateEmail,
+    validatePhone,
     validateForm,
   };
 }

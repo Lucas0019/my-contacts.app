@@ -1,5 +1,8 @@
 import { ChangeEvent, FormEvent } from 'react';
 
+import { formatPhone } from '../utils/formatPhone';
+import { normalizePhone } from '../utils/normalizePhone';
+
 import { useContactValidation } from './useContactValidation';
 import { useFormFields } from './useFormFields';
 
@@ -13,47 +16,48 @@ export const useContactForm = () => {
 
   const { name, email, phone, category } = fields;
 
-  const { getFieldError, removeFieldError, validateEmail, validateForm } =
-    useContactValidation();
+  const {
+    getFieldError,
+    removeFieldError,
+    validateEmail,
+    validatePhone,
+    validateForm,
+  } = useContactValidation();
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('name', e.target.value);
-    removeFieldError('name');
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatPhone(e.target.value);
+    setFieldValue('phone', formatted);
+    removeFieldError('phone');
   };
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFieldValue('email', e.target.value);
-    removeFieldError('email');
-  };
-
-  const handleEmailBlur = () => {
-    validateEmail(email);
+  const handlePhoneBlur = () => {
+    validatePhone(phone);
   };
 
   const handleSubmit =
-    (
-      onValidSubmit: (data: {
-        name: string;
-        email: string;
-        phone: string;
-        category: string;
-      }) => void,
-    ) =>
+    (onValidSubmit: (data: typeof fields) => void) =>
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      if (!validateForm({ name, email })) return;
+      if (!validateForm({ name, email, phone })) return;
 
-      onValidSubmit({ name, email, phone, category });
+      onValidSubmit({ name, email, phone: normalizePhone(phone), category });
     };
 
   return {
     fields,
     handlers: {
-      handleNameChange,
-      handleEmailChange,
-      handleEmailBlur,
-      setPhone: (value: string) => setFieldValue('phone', value),
+      handleNameChange: (e: ChangeEvent<HTMLInputElement>) => {
+        setFieldValue('name', e.target.value);
+        removeFieldError('name');
+      },
+      handleEmailChange: (e: ChangeEvent<HTMLInputElement>) => {
+        setFieldValue('email', e.target.value);
+        removeFieldError('email');
+      },
+      handleEmailBlur: () => validateEmail(email),
+      handlePhoneChange,
+      handlePhoneBlur,
       setCategory: (value: string) => setFieldValue('category', value),
     },
     getFieldError,

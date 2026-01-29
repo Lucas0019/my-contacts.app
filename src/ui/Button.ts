@@ -14,6 +14,7 @@ export const UIButton = styled.button<ButtonProps>`
   color: #fff;
   transition: background 0.2s ease-in;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  appearance: none;
 
   background: ${({ theme }) => theme.colors.primary.main};
 
