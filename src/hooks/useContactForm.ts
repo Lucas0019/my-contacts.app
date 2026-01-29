@@ -1,82 +1,33 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent } from 'react';
 
-import { isEmailValid } from '../utils/isEmailValid';
-
-type Field = 'name' | 'email';
-
-type FieldError = {
-  field: Field;
-  message: string;
-};
+import { useContactValidation } from './useContactValidation';
+import { useFormFields } from './useFormFields';
 
 export const useContactForm = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
-  const [errors, setErrors] = useState<FieldError[]>([]);
+  const { fields, setFieldValue } = useFormFields({
+    name: '',
+    email: '',
+    phone: '',
+    category: '',
+  });
 
-  const getFieldError = (field: Field) =>
-    errors.find((error) => error.field === field);
+  const { name, email, phone, category } = fields;
 
-  const removeFieldError = (field: Field) =>
-    setErrors((prev) => prev.filter((error) => error.field !== field));
+  const { getFieldError, removeFieldError, validateEmail, validateForm } =
+    useContactValidation();
 
-  const validateName = (value: string): FieldError | null => {
-    if (!value) {
-      return { field: 'name', message: 'Nome é obrigatório' };
-    }
-    return null;
-  };
-
-  const validateEmail = (value: string): FieldError | null => {
-    if (!value) {
-      return { field: 'email', message: 'Email é obrigatório' };
-    }
-
-    if (!isEmailValid(value)) {
-      return {
-        field: 'email',
-        message: 'O formato do email é inválido, ex: lucas@gmail.com',
-      };
-    }
-
-    return null;
-  };
-
-  const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setName(value);
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFieldValue('name', e.target.value);
     removeFieldError('name');
   };
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setEmail(value);
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFieldValue('email', e.target.value);
     removeFieldError('email');
   };
 
   const handleEmailBlur = () => {
-    const error = validateEmail(email);
-
-    setErrors((prev) => {
-      const filtered = prev.filter((e) => e.field !== 'email');
-      return error ? [...filtered, error] : filtered;
-    });
-  };
-
-  const validateForm = () => {
-    const newErrors: FieldError[] = [];
-
-    const nameError = validateName(name);
-    if (nameError) newErrors.push(nameError);
-
-    const emailError = validateEmail(email);
-    if (emailError) newErrors.push(emailError);
-
-    setErrors(newErrors);
-
-    return newErrors.length === 0;
+    validateEmail(email);
   };
 
   const handleSubmit =
@@ -91,29 +42,19 @@ export const useContactForm = () => {
     (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      if (!validateForm()) return;
+      if (!validateForm({ name, email })) return;
 
-      onValidSubmit({
-        name,
-        email,
-        phone,
-        category,
-      });
+      onValidSubmit({ name, email, phone, category });
     };
 
   return {
-    fields: {
-      name,
-      email,
-      phone,
-      category,
-    },
+    fields,
     handlers: {
       handleNameChange,
       handleEmailChange,
       handleEmailBlur,
-      setPhone,
-      setCategory,
+      setPhone: (value: string) => setFieldValue('phone', value),
+      setCategory: (value: string) => setFieldValue('category', value),
     },
     getFieldError,
     handleSubmit,
