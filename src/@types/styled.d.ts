@@ -2,8 +2,8 @@
 
 import 'styled-components';
 
+import { Theme } from '../assets/styles/theme/theme';
+
 declare module 'styled-components' {
-  export interface DefaultTheme {
-    backgroundColor: string;
-  }
+  export interface DefaultTheme extends Theme {}
 }
