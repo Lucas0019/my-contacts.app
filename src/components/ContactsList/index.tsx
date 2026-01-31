@@ -3,56 +3,107 @@ import { Link } from 'react-router-dom';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
-// import { Modal } from '../Modal';
-// import { Loader } from '../Loader';
+import { useContacts } from '../../hooks/useContacts';
+import { Loader } from '../Loader';
 
 import * as S from './styles';
 
 export const ContactsList = () => {
-  // const modalType = 'default';
+  const {
+    contacts,
+    handleToggleOrderBy,
+    orderBy,
+    handleSearch,
+    searchTerm,
+    loading,
+    error,
+    hasContacts,
+  } = useContacts();
+
+  const isSearching = searchTerm.length > 0;
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <S.ContactsListContainer data-component="ContactsList">
+        <p>Ocorreu um erro ao carregar os contatos.</p>
+      </S.ContactsListContainer>
+    );
+  }
 
   return (
     <S.ContactsListContainer data-component="ContactsList">
-      {/* <Loader /> */}
-      {/* <Modal modalType={modalType} /> */}
-
       <S.InputSearchContainer>
-        <input type="text" placeholder="Pesquisar contato..." />
+        <input
+          type="text"
+          placeholder="Pesquisar contato..."
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
       </S.InputSearchContainer>
+
       <S.ContactsListHeader>
-        <strong>3 contatos</strong>
+        <strong>
+          {contacts.length} {contacts.length === 1 ? 'Contato' : 'Contatos'}
+        </strong>
 
         <Link to="/new">Novo Contato</Link>
       </S.ContactsListHeader>
 
-      <S.ListContainer>
-        <header>
-          <button type="button">
+      {hasContacts && (
+        <S.ListHeader>
+          <button type="button" onClick={handleToggleOrderBy}>
             <span>Nome</span>
-            <img src={arrow} alt="Ícone de seta para ordenar" />
+            <img
+              src={arrow}
+              alt="Ícone de seta para ordenar"
+              data-order-by={orderBy}
+            />
           </button>
-        </header>
+        </S.ListHeader>
+      )}
 
-        <S.ContactsCard>
+      {!hasContacts && isSearching && (
+        <S.EmptyState>
+          <p>
+            Nenhum contato encontrado para <strong>“{searchTerm}”</strong>.
+          </p>
+        </S.EmptyState>
+      )}
+
+      {!hasContacts && !isSearching && (
+        <S.EmptyState>
+          <p>Você ainda não tem nenhum contato cadastrado.</p>
+        </S.EmptyState>
+      )}
+
+      {contacts.map((contact) => (
+        <S.ContactsCard key={contact.id}>
           <div className="info">
             <div className="contact-name">
-              <strong>Lucas Xavier</strong>
-              <small>Instagram</small>
+              <strong>{contact.name}</strong>
+
+              {contact.category_name && <small>{contact.category_name}</small>}
             </div>
-            <span>lucas@email.com</span>
-            <span>(11) 99999-9999</span>
+
+            <span>{contact.email}</span>
+            <span>{contact.phone}</span>
           </div>
 
           <div className="actions">
-            <Link to="/edit/1">
+            <Link to={`/edit/${contact.id}`}>
               <img src={edit} alt="Ícone de editar" />
             </Link>
+
             <button type="button">
               <img src={trash} alt="Ícone de lixeira" />
             </button>
           </div>
         </S.ContactsCard>
-      </S.ListContainer>
+      ))}
     </S.ContactsListContainer>
   );
 };

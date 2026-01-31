@@ -50,29 +50,30 @@ export const ContactsListHeader = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header`
   margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  button {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 8px;
 
-  Header {
-    margin-bottom: 0.5rem;
-    button {
-      background: transparent;
-      border: none;
-      display: flex;
-      align-items: center;
+    span {
       font-weight: bold;
-      cursor: pointer;
-      gap: 8px;
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
 
-      span {
-        font-weight: bold;
-        color: ${({ theme }) => theme.colors.primary.main};
-      }
+    img {
+      transform: rotate(0deg);
+      transition: transform 0.2s ease-in;
+      width: 10px;
 
-      img {
-        transform: rotate(0deg);
-        transition: transform 0.2s ease-in;
-        width: 10px;
+      &[data-order-by='desc'] {
+        transform: rotate(180deg);
       }
     }
   }
@@ -133,5 +134,18 @@ export const ContactsCard = styled.div`
       align-items: center;
       padding: 4px;
     }
+  }
+`;
+
+export const EmptyState = styled.div`
+  margin-top: 32px;
+  padding: 24px;
+  text-align: center;
+
+  color: ${({ theme }) => theme.colors.gray[900]};
+
+  p {
+    font-size: 14px;
+    line-height: 1.6;
   }
 `;
