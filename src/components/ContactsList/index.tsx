@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 
 import arrow from '../../assets/images/icons/arrow.svg';
@@ -20,11 +22,19 @@ export const ContactsList = () => {
     hasContacts,
   } = useContacts();
 
+  const [isOrdering, setIsOrdering] = useState(false);
   const isSearching = searchTerm.length > 0;
 
-  if (loading) {
-    return <Loader />;
-  }
+  const handleOrder = () => {
+    setIsOrdering(true);
+
+    setTimeout(() => {
+      handleToggleOrderBy();
+      setIsOrdering(false);
+    }, 300);
+  };
+
+  if (loading) return <Loader />;
 
   if (error) {
     return (
@@ -36,6 +46,7 @@ export const ContactsList = () => {
 
   return (
     <S.ContactsListContainer data-component="ContactsList">
+      {loading || (isOrdering && <Loader />)}
       <S.InputSearchContainer>
         <input
           type="text"
@@ -55,7 +66,7 @@ export const ContactsList = () => {
 
       {hasContacts && (
         <S.ListHeader>
-          <button type="button" onClick={handleToggleOrderBy}>
+          <button type="button" onClick={handleOrder}>
             <span>Nome</span>
             <img
               src={arrow}
@@ -85,7 +96,6 @@ export const ContactsList = () => {
           <div className="info">
             <div className="contact-name">
               <strong>{contact.name}</strong>
-
               {contact.category_name && <small>{contact.category_name}</small>}
             </div>
 

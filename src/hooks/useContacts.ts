@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { sleep } from '../utils/sleep';
+
 type ContactProps = {
   id: string;
   name: string;
@@ -52,6 +54,8 @@ export const useContacts = () => {
       setLoading(true);
       setError(null);
 
+      await sleep(1000);
+
       const response = await fetch('http://localhost:3000/contacts', {
         signal: controller.signal,
       });
@@ -81,9 +85,6 @@ export const useContacts = () => {
     return sortContacts(filtered, orderBy);
   }, [contacts, orderBy, debouncedSearchTerm]);
 
-  /* ────────────────
-     Estados de UX
-     ──────────────── */
   const hasContacts = filteredAndOrderedContacts.length > 0;
   const isSearching = debouncedSearchTerm.length > 0;
   const isEmptyList = contacts.length === 0;
